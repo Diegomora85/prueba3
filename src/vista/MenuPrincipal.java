@@ -128,7 +128,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_miConsultarActionPerformed
 
     private void miModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miModificarActionPerformed
-        // TODO add your handling code here:
+        ModificarPersona mp = new ModificarPersona();
+        escritorio.add(mp);
+        mp.show();
     }//GEN-LAST:event_miModificarActionPerformed
 
     private void miEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miEliminarActionPerformed
