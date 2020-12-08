@@ -28,6 +28,11 @@ public class Rut {
         this.dv = dv;
     }
     
+    public static boolean validarRut(int rut, String dv){
+        Rut aux = new Rut(rut, dv);
+        return aux.validarRut();
+    }
+    
     public boolean validarRut(){
         int r=rut,suma=0,c=2;
         while (r>0){

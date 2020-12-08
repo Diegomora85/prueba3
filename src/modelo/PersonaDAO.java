@@ -1,7 +1,10 @@
 package modelo;
 
+import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class PersonaDAO {
@@ -55,21 +58,56 @@ public class PersonaDAO {
                 p.setNombre(rs.getString("Nombre"));
                 p.setGenero(rs.getInt("genero"));
                 p.setEstadoCivil(rs.getInt("estadoCivil"));
-                
-                
-                
-                
-                
             }else{
                 msj="Persona Encontrada";
             }
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error\n" + e.toString());
         }
         JOptionPane.showMessageDialog(null, msj);
         
         return p;
+    }
+    
+    public Persona selectPersonaByID(int ID) throws SQLException{   
+        String query = "SELECT * FROM persona WHERE ID = ?";
+        PreparedStatement ps = con.getConecction().prepareStatement(query);
+        ps.setInt(1, ID);
+        
+        ResultSet rs = ps.executeQuery(); // No se espera mas de 1 resultado
+        rs.next();                        // debido a que ID es PK
+        
+        Persona p = new Persona();
+        
+        p.setId(rs.getInt("ID"));
+        p.setRut(rs.getString("rut"));
+        p.setApellido(rs.getString("apellido"));
+        p.setNombre(rs.getString("Nombre"));
+        p.setGenero(rs.getInt("genero"));
+        p.setEstadoCivil(rs.getInt("estadoCivil"));
+        
+        return p;
+    }
+    
+    public void ModificarPersonaByID(Persona p) throws SQLException{
+        String query = "UPDATE persona SET "
+                + "rut = ?, "
+                + "apellido = ?, "
+                + "nombre = ?, "
+                + "genero = ?, "
+                + "estadoCivil = ? "
+                + "WHERE ID = ?";
+        
+        PreparedStatement ps = con.getConecction().prepareStatement(query);
+        ps.setString(1, p.getRut());
+        ps.setString(2, p.getApellido());
+        ps.setString(3, p.getNombre());
+        ps.setInt(4, p.getGenero());
+        ps.setInt(5, p.getEstadoCivil());
+        ps.setInt(6, p.getId());
+        
+        ps.executeUpdate();
     }
     
     public void eliminarPersona(Object obj){

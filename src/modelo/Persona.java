@@ -4,7 +4,8 @@ package modelo;
 
 public class Persona {
     private int id;
-    private String rut;
+    //private String rut;
+    private Rut rut;
     private String apellido;
     private String nombre;
     private int genero;
@@ -12,7 +13,7 @@ public class Persona {
 
     public Persona(int id, String rut, String apellido, String nombre, int genero, int estadoCivil) {
         this.id = id;
-        this.rut = rut;
+        this.setRut(rut);
         this.apellido = apellido;
         this.nombre = nombre;
         this.genero = genero;
@@ -27,7 +28,7 @@ public class Persona {
     }
 
     public Persona(String rut) {
-        this.rut = rut;
+        this.setRut(rut);
     }
     
     
@@ -41,11 +42,12 @@ public class Persona {
     }
 
     public String getRut() {
-        return rut;
+        return String.valueOf(rut.getRut()) + "-" + rut.getDv();
     }
 
     public void setRut(String rut) {
-        this.rut = rut;
+        String[] aux = rut.split("-", 2);
+        this.rut = new Rut(Integer.parseInt(aux[0]), aux[1]);
     }
 
     public String getApellido() {

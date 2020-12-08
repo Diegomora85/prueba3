@@ -5,8 +5,8 @@
  */
 package vista;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import modelo.Persona;
+import modelo.PersonaDAO;
 
 /**
  *
@@ -41,6 +41,7 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
         labelGenero = new javax.swing.JLabel();
         cbEstadoCivil = new javax.swing.JComboBox<>();
         btnEnviar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         input.setText("Buscar por ID");
         input.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -58,11 +59,9 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
         outID.setText("ID");
         outID.setEnabled(false);
 
-        outNombre.setEditable(false);
         outNombre.setText("Nombre");
         outNombre.setEnabled(false);
 
-        outApellido.setEditable(false);
         outApellido.setText("Apellido");
         outApellido.setEnabled(false);
         outApellido.addActionListener(new java.awt.event.ActionListener() {
@@ -83,13 +82,24 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
 
         rbtnMasculino.setText("Masculino");
         rbtnMasculino.setEnabled(false);
+        rbtnMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnMasculinoActionPerformed(evt);
+            }
+        });
 
         rbtnFemenino.setText("Femenino");
         rbtnFemenino.setEnabled(false);
+        rbtnFemenino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnFemeninoActionPerformed(evt);
+            }
+        });
 
         labelGenero.setText("Genero");
         labelGenero.setEnabled(false);
 
+        cbEstadoCivil.setEditable(true);
         cbEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "\"<Seleccione>\"", "\"Soltero/a\"", "\"Casado/a\"", "\"Viudo/a\"", "\"Divorciado/a\"" }));
         cbEstadoCivil.setEnabled(false);
         cbEstadoCivil.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +109,19 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
         });
 
         btnEnviar.setText("Enviar");
+        btnEnviar.setEnabled(false);
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,9 +142,12 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
                             .addComponent(outID, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbEstadoCivil, 0, 194, Short.MAX_VALUE)
-                            .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(51, 51, 51)
+                            .addComponent(cbEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(rbtnFemenino)
                             .addComponent(rbtnMasculino)
@@ -149,13 +175,15 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
                     .addComponent(cbEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(rbtnMasculino)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbtnFemenino)))
+                        .addComponent(rbtnFemenino))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -167,7 +195,41 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_outApellidoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        String query = input.getText();
+        try{
+            PersonaDAO aux = new PersonaDAO();
+            Persona p = aux.selectPersonaByID(Integer.parseInt(query));
+            
+            outID.setEnabled(true);
+            outNombre.setEnabled(true);
+            outApellido.setEnabled(true);
+            outRut.setEnabled(true);
+            btnEnviar.setEnabled(true);
+            rbtnFemenino.setEnabled(true);
+            rbtnMasculino.setEnabled(true);
+            labelGenero.setEnabled(true);
+            cbEstadoCivil.setEnabled(true);
+            
+            outID.setText(String.valueOf(p.getId()));
+            outNombre.setText(p.getNombre());
+            outApellido.setText(p.getApellido());
+            outRut.setText(p.getRut());
+            if(p.getGenero() == 1){
+                rbtnFemenino.setSelected(true);
+                rbtnMasculino.setSelected(false);
+            }
+            if(p.getGenero() == 2){
+                rbtnMasculino.setSelected(true);
+                rbtnFemenino.setSelected(false);
+            }
+            cbEstadoCivil.setSelectedIndex(p.getEstadoCivil());
+        } catch (java.sql.SQLException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "No se ha encontrado esta persona");
+        } catch (java.lang.NullPointerException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "No se ha podido establecer conexion con la base de datos");
+        } catch (java.lang.NumberFormatException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "La ID es un valor entero. Por favor, solo ingrese numeros.");
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void cbEstadoCivilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoCivilActionPerformed
@@ -178,19 +240,55 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
         JTextField input
     */
     private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
-        
+        // Does Nothing
     }//GEN-LAST:event_inputActionPerformed
 
     private void inputMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputMouseClicked
-        if(input.getText().equals("Buscar por ID")){
-            input.setText("");
-        }
+        input.setText("");
     }//GEN-LAST:event_inputMouseClicked
+
+    private void rbtnMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnMasculinoActionPerformed
+        rbtnMasculino.setSelected(true);
+        rbtnFemenino.setSelected(false);
+    }//GEN-LAST:event_rbtnMasculinoActionPerformed
+
+    private void rbtnFemeninoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnFemeninoActionPerformed
+        rbtnMasculino.setSelected(false);
+        rbtnFemenino.setSelected(true);
+    }//GEN-LAST:event_rbtnFemeninoActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        Persona p = new Persona();
+        p.setApellido(outApellido.getText());
+        p.setNombre(outNombre.getText());
+        p.setEstadoCivil(cbEstadoCivil.getSelectedIndex());
+        p.setRut(outRut.getText());
+        p.setId(Integer.parseInt(outID.getText()));
+        if(rbtnFemenino.isSelected()){
+            p.setGenero(1);
+        }
+        else{
+            p.setGenero(2);
+        }
+        
+        PersonaDAO pd = new PersonaDAO();
+        try{
+            pd.ModificarPersonaByID(p);
+            javax.swing.JOptionPane.showMessageDialog(null, "Se ha modificado con exito!");
+        } catch(java.sql.SQLException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "No se pudo modificar el dato.\n" + e.toString());
+        }
+    }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbEstadoCivil;
     private javax.swing.JTextField input;
     private javax.swing.JLabel labelGenero;
