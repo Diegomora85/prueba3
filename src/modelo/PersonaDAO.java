@@ -4,6 +4,7 @@ import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -134,6 +135,26 @@ public class PersonaDAO {
         }
         
     } 
+    
+    public List<Persona> listaPersonas() throws SQLException{
+        List<Persona> lista = new ArrayList<>();
+        String query = "SELECT * FROM persona";
+        PreparedStatement ps = con.getConecction().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            Persona p = new Persona();
+            
+            p.setId(rs.getInt("ID"));
+            p.setRut(rs.getString("rut"));
+            p.setApellido(rs.getString("apellido"));
+            p.setNombre(rs.getString("Nombre"));
+            p.setGenero(rs.getInt("genero"));
+            p.setEstadoCivil(rs.getInt("estadoCivil"));
+            
+            lista.add(p);
+        }
+        return lista;
+    }
     
 
     /* public static void main(String[] args) {

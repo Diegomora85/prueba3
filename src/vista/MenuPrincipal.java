@@ -33,11 +33,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 459, Short.MAX_VALUE)
+            .addGap(0, 576, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 491, Short.MAX_VALUE)
         );
 
         meMantenedor.setText("Mantenedor");
@@ -79,6 +79,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Procesos");
 
         miListar.setText("Listar personas");
+        miListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListarActionPerformed(evt);
+            }
+        });
         jMenu2.add(miListar);
 
         mbPrincipal.add(jMenu2);
@@ -139,6 +144,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(ep);
         ep.show();
     }//GEN-LAST:event_miEliminarActionPerformed
+
+    private void miListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListarActionPerformed
+        EnlistarPersonas ep = new EnlistarPersonas();
+        escritorio.add(ep);
+        ep.show();
+    }//GEN-LAST:event_miListarActionPerformed
 
     /**
      * @param args the command line arguments
