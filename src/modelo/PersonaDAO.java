@@ -60,7 +60,7 @@ public class PersonaDAO {
                 p.setGenero(rs.getInt("genero"));
                 p.setEstadoCivil(rs.getInt("estadoCivil"));
             }else{
-                msj="Persona Encontrada";
+                msj="No se encontro a esta persona";
             }
             
         } catch (SQLException e) {

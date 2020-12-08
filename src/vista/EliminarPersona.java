@@ -49,6 +49,12 @@ public class EliminarPersona extends javax.swing.JInternalFrame {
 
         setTitle("Eliminar Persona");
 
+        txtRut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRutActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Ingrese Rut a eliminar");
 
         btnBuscar.setText("Buscar");
@@ -224,6 +230,10 @@ public class EliminarPersona extends javax.swing.JInternalFrame {
         }
         this.setVisible(false);
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtRutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

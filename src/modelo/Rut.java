@@ -34,8 +34,12 @@ public class Rut {
     }
     
     public static boolean validarRut(String rut){
-        String[] aux = rut.split("-", 2);
-        return Rut.validarRut(Integer.parseInt(aux[0]), aux[1]);
+        try{
+            String[] aux = rut.split("-", 2);
+            return Rut.validarRut(Integer.parseInt(aux[0]), aux[1]);
+        } catch (java.lang.ArrayIndexOutOfBoundsException | NumberFormatException e){
+            return false;
+        }
     }
     
     public boolean validarRut(){
