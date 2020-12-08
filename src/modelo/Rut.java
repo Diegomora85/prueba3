@@ -33,6 +33,11 @@ public class Rut {
         return aux.validarRut();
     }
     
+    public static boolean validarRut(String rut){
+        String[] aux = rut.split("-", 2);
+        return Rut.validarRut(Integer.parseInt(aux[0]), aux[1]);
+    }
+    
     public boolean validarRut(){
         int r=rut,suma=0,c=2;
         while (r>0){

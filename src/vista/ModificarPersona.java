@@ -277,6 +277,8 @@ public class ModificarPersona extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(null, "Se ha modificado con exito!");
         } catch(java.sql.SQLException e){
             javax.swing.JOptionPane.showMessageDialog(null, "No se pudo modificar el dato.\n" + e.toString());
+        } catch(java.lang.Exception e){
+            javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_btnEnviarActionPerformed
 

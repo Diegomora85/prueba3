@@ -90,9 +90,13 @@ public class PersonaDAO {
         return p;
     }
     
-    public void ModificarPersonaByID(Persona p) throws SQLException{
+    public void ModificarPersonaByID(Persona p) throws SQLException, Exception{
+        if(p.getRut().equals("")){
+            throw new Exception("El RUT no es valido");
+        }
+        
         String query = "UPDATE persona SET "
-                + "rut = ?, "
+                + (p.getRut().equals("")? "" : "rut = ?, ")
                 + "apellido = ?, "
                 + "nombre = ?, "
                 + "genero = ?, "
@@ -100,7 +104,6 @@ public class PersonaDAO {
                 + "WHERE ID = ?";
         
         PreparedStatement ps = con.getConecction().prepareStatement(query);
-        ps.setString(1, p.getRut());
         ps.setString(2, p.getApellido());
         ps.setString(3, p.getNombre());
         ps.setInt(4, p.getGenero());

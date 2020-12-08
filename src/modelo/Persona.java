@@ -42,12 +42,17 @@ public class Persona {
     }
 
     public String getRut() {
-        return String.valueOf(rut.getRut()) + "-" + rut.getDv();
+        if(rut != null){
+            return String.valueOf(rut.getRut()) + "-" + rut.getDv();
+        }
+        else return "";
     }
 
     public void setRut(String rut) {
-        String[] aux = rut.split("-", 2);
-        this.rut = new Rut(Integer.parseInt(aux[0]), aux[1]);
+        if(Rut.validarRut(rut)){
+            String[] aux = rut.split("-", 2);
+            this.rut = new Rut(Integer.parseInt(aux[0]), aux[1]);
+        }
     }
 
     public String getApellido() {
